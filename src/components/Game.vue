@@ -4,7 +4,7 @@
             <rect class="mario" width="50" height="100" stroke="10" x="50" v-bind:y="playerPos"></rect>
             <line class="line" x1="0" y1="500" x2="1000" y2="500"></line>
             <circle class="sun" r="50" cx="100" cy="100"></circle>
-            <rect class="enemy" height="50" width="50" v-bind:x="obstaclePos" v-bind:y="enemyHeight"></rect>
+            <rect class="enemy" height="50" width="50" v-bind:x="enemyPosX" v-bind:y="enemyPosY"></rect>
         </svg>
     </div>
 </template>
@@ -17,11 +17,12 @@
                 speed: 4,
                 playerPos: 400,
                 playerSpeed: 15,
-                gravity:10,
+                gravity: 10,
                 isJumping: false,
                 isGoingUpwards: true,
-                obstaclePos: 800,
-                enemyHeight:450
+                enemyPosX: 800,
+                enemyPosY: 450,
+                isGameOver: false
             }
         },
         created() {
@@ -30,6 +31,7 @@
         }
         , methods: {
             nextFrame() {
+                this.checkCollision();
                 this.moveEnemy();
                 this.moveUser()
             },
@@ -45,9 +47,9 @@
                         this.playerSpeed = 1;
                         this.isGoingUpwards = false
                     } else {
-                        if (this.isGoingUpwards){
+                        if (this.isGoingUpwards) {
                             this.playerSpeed = this.playerSpeed - 20 / 25
-                        }else {
+                        } else {
                             this.playerSpeed = this.playerSpeed + 15 / 25
                         }
                     }
@@ -56,33 +58,45 @@
                     } else {
                         this.playerPos = this.playerPos + this.playerSpeed
                     }
-                    if (this.playerPos > 401){
+                    if (this.playerPos > 401) {
                         this.playerPos = 400;
                         this.playerSpeed = 15;
                         this.isJumping = false;
                         this.isGoingUpwards = true
                     }
                 }
-                if ()
             },
-            moveEnemy(){
-                if (this.obstaclePos < -50){
-                    this.obstaclePos = 1100;
-                    if (Math.random() > 0.5){
-                        this.enemyHeight = 450;
+            moveEnemy() {
+                if (this.enemyPosX < -50) {
+                    this.enemyPosX = 1100;
+                    if (Math.random() > 0.5) {
+                        this.enemyPosY = 450;
                         this.speed = 4
-                    }else {
-                        this.enemyHeight = 300;
+                    } else {
+                        this.enemyPosY = 300;
                         this.speed = 8
                     }
                 }
-                this.obstaclePos -= this.speed;
+                this.enemyPosX -= this.speed;
             },
-            start() {
-                //25 FPS
-                setInterval(this.nextFrame, 40);
-            }
+            checkCollision() {
+                let rect1 = document.querySelector('.mario').getBoundingClientRect();
+                let rect2 = document.querySelector('.enemy').getBoundingClientRect();
+                if (rect1.x < rect2.x + rect2.width &&
+                    rect1.x + rect1.width > rect2.x &&
+                    rect1.y < rect2.y + rect2.height &&
+                    rect1.y + rect1.height > rect2.y) {
+                    // eslint-disable-next-line no-console
+                    console.log("u died");
+                    this.isGameOver = true
+                }
+
+        },
+        start() {
+            //25 FPS
+            setInterval(this.nextFrame, 40);
         }
+    }
     }
 </script>
 
