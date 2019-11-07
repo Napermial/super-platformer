@@ -4,12 +4,12 @@ import axios from 'axios'
 import router from './router/index'
 
 
-Vue.config.productionTip = false
-Vue.use(axios)
+Vue.config.productionTip = false;
+
 
 
 
 new Vue({
     render: h => h(App),
-  router
+  router, axios
 }).$mount('#app')
