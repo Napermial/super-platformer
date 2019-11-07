@@ -1,9 +1,10 @@
 import VueRouter from "vue-router";
 import Vue from 'vue'
-import Main from "../components/Main";
-import Game from "../components/Game";
 
 Vue.use(VueRouter)
+
+const  Main = () => import('../components/Main.vue');
+const Game = () => import('../components/Game.vue');
 
 export default new VueRouter(
     {
