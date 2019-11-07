@@ -8,11 +8,14 @@
             <rect class="health-bar" height="30" width="200" x="30" y="30"></rect>
             <rect class="cloud 1" height="60" width="100" x="600" y="100"></rect>
             <rect class="cloud 2" height="60" width="100" x="550" y="80"></rect>
+            <text class="score-num" x="850" y="30" >{{this.score}}</text>
         </svg>
     </div>
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
         name: "Game",
         data() {
@@ -25,7 +28,8 @@
                 isGoingUpwards: true,
                 enemyPosX: 800,
                 enemyPosY: 450,
-                isGameOver: false
+                isGameOver: false,
+                score: 1
             }
         },
         created() {
@@ -36,7 +40,8 @@
             nextFrame() {
                 this.checkCollision();
                 this.moveEnemy();
-                this.moveUser()
+                this.moveUser();
+                this.increaseScore();
             },
             handleUserAction(event) {
                 if (event.keyCode === 32) {
@@ -93,15 +98,24 @@
                     console.log("u died");
                     this.isGameOver = true
                     // eslint-disable-next-line no-undef
-                    document.querySelector(".health-bar").style.fill = "red" ;
+                    document.querySelector(".health-bar").style.fill = "red";
                 }
 
-        },
-        start() {
-            //25 FPS
-            setInterval(this.nextFrame, 40);
+            },
+            increaseScore() {
+                if (!this.isGameOver) {
+                    this.score += 1;
+                    // eslint-disable-next-line no-console
+                    console.log(this.score)
+                }
+                axios.post();
+            },
+
+            start() {
+                //25 FPS
+                setInterval(this.nextFrame, 40);
+            }
         }
-    }
     }
 </script>
 
@@ -127,8 +141,14 @@
         fill: blue;
     }
 
-    .health-bar{
+    .health-bar {
         fill: darkgreen;
+    }
+
+    .score-num {
+        fill: black;
+        font-family: Supersans;
+        font-size: 40px;
     }
 
     .cloud{
