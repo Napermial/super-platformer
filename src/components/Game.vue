@@ -2,10 +2,10 @@
     <div>
         <svg width="1000" height="500">
             <rect class="mario" width="50" height="100" stroke="10" x="50" v-bind:y="playerPos"></rect>
-            <rect class="luigi" width="50" height="100" stroke="10" v-bind:x="obstaclePos" y="400"></rect>
             <line class="line" x1="0" y1="500" x2="1000" y2="500"></line>
-            <circle class="sun" r="50" cx="100" cy="100"></circle>
-            <rect class="enemy" height="50" width="50" x="600" y="450"></rect>
+            <circle class="sun" r="50" cx="200" cy="200"></circle>
+            <rect class="enemy" height="50" width="50" v-bind:x="enemyPosX" v-bind:y="enemyPosY"></rect>
+            <rect class="health-bar" height="30" width="200" x="30" y="30"></rect>
         </svg>
     </div>
 </template>
@@ -15,13 +15,15 @@
         name: "Game",
         data() {
             return {
-                speed: 1,
+                speed: 4,
                 playerPos: 400,
                 playerSpeed: 15,
-                gravity:10,
+                gravity: 10,
                 isJumping: false,
                 isGoingUpwards: true,
-                obstaclePos: 800
+                enemyPosX: 800,
+                enemyPosY: 450,
+                isGameOver: false
             }
         },
         created() {
@@ -30,7 +32,8 @@
         }
         , methods: {
             nextFrame() {
-                this.obstaclePos -= this.speed;
+                this.checkCollision();
+                this.moveEnemy();
                 this.moveUser()
             },
             handleUserAction(event) {
@@ -45,10 +48,10 @@
                         this.playerSpeed = 1;
                         this.isGoingUpwards = false
                     } else {
-                        if (this.isGoingUpwards){
+                        if (this.isGoingUpwards) {
                             this.playerSpeed = this.playerSpeed - 20 / 25
-                        }else {
-                            this.playerSpeed = this.playerSpeed + 10 / 25
+                        } else {
+                            this.playerSpeed = this.playerSpeed + 15 / 25
                         }
                     }
                     if (this.isGoingUpwards) {
@@ -56,7 +59,7 @@
                     } else {
                         this.playerPos = this.playerPos + this.playerSpeed
                     }
-                    if (this.playerPos > 401){
+                    if (this.playerPos > 401) {
                         this.playerPos = 400;
                         this.playerSpeed = 15;
                         this.isJumping = false;
@@ -64,10 +67,39 @@
                     }
                 }
             },
-            start() {
-                setInterval(this.nextFrame, 40);
-            }
+            moveEnemy() {
+                if (this.enemyPosX < -50) {
+                    this.enemyPosX = 1100;
+                    if (Math.random() > 0.5) {
+                        this.enemyPosY = 450;
+                        this.speed = 4
+                    } else {
+                        this.enemyPosY = 300;
+                        this.speed = 8
+                    }
+                }
+                this.enemyPosX -= this.speed;
+            },
+            checkCollision() {
+                let rect1 = document.querySelector('.mario').getBoundingClientRect();
+                let rect2 = document.querySelector('.enemy').getBoundingClientRect();
+                if (rect1.x < rect2.x + rect2.width &&
+                    rect1.x + rect1.width > rect2.x &&
+                    rect1.y < rect2.y + rect2.height &&
+                    rect1.y + rect1.height > rect2.y) {
+                    // eslint-disable-next-line no-console
+                    console.log("u died");
+                    this.isGameOver = true
+                    // eslint-disable-next-line no-undef
+                    document.querySelector(".health-bar").style.fill = "red" ;
+                }
+
+        },
+        start() {
+            //25 FPS
+            setInterval(this.nextFrame, 40);
         }
+    }
     }
 </script>
 
@@ -91,5 +123,9 @@
 
     .enemy {
         fill: blue;
+    }
+
+    .health-bar{
+        fill: darkgreen;
     }
 </style>
