@@ -68,9 +68,11 @@
                 if (this.obstaclePos < -50){
                     this.obstaclePos = 1100;
                     if (Math.random() > 0.5){
-                        this.enemyHeight = 450
+                        this.enemyHeight = 450;
+                        this.speed = 4
                     }else {
-                        this.enemyHeight = 300
+                        this.enemyHeight = 300;
+                        this.speed = 8
                     }
                 }
                 this.obstaclePos -= this.speed;
