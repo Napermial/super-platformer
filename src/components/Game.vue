@@ -4,7 +4,7 @@
             <rect class="mario" width="50" height="100" stroke="10" x="50" v-bind:y="playerPos"></rect>
             <line class="line" x1="0" y1="500" x2="1000" y2="500"></line>
             <circle class="sun" r="50" cx="100" cy="100"></circle>
-            <rect class="enemy" height="50" width="50" v-bind:x="obstaclePos" y="450"></rect>
+            <rect class="enemy" height="50" width="50" v-bind:x="obstaclePos" v-bind:y="enemyHeight"></rect>
         </svg>
     </div>
 </template>
@@ -20,7 +20,8 @@
                 gravity:10,
                 isJumping: false,
                 isGoingUpwards: true,
-                obstaclePos: 800
+                obstaclePos: 800,
+                enemyHeight:450
             }
         },
         created() {
@@ -47,7 +48,7 @@
                         if (this.isGoingUpwards){
                             this.playerSpeed = this.playerSpeed - 20 / 25
                         }else {
-                            this.playerSpeed = this.playerSpeed + 10 / 25
+                            this.playerSpeed = this.playerSpeed + 15 / 25
                         }
                     }
                     if (this.isGoingUpwards) {
@@ -64,13 +65,15 @@
                 }
             },
             moveEnemy(){
-                if (this.obstaclePos < 0){
-                    this.obstaclePos = 1100
+                if (this.obstaclePos < -50){
+                    this.obstaclePos = 1100;
+                    if (Math.random() > 0.5){
+                        this.enemyHeight = 450
+                    }else {
+                        this.enemyHeight = 300
+                    }
                 }
                 this.obstaclePos -= this.speed;
-            },
-            spawnEnemy(){
-
             },
             start() {
                 //25 FPS
