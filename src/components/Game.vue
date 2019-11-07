@@ -63,6 +63,7 @@
                         this.isGoingUpwards = true
                     }
                 }
+                if ()
             },
             moveEnemy(){
                 if (this.obstaclePos < -50){
