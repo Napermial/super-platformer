@@ -17,10 +17,10 @@
             return {
                 speed: 1,
                 playerPos: 400,
-                playerSpeed: 63,
+                playerSpeed: 15,
+                gravity:10,
                 isJumping: false,
-                isGoingUpwards: false,
-                playerJumpStrength: 200,
+                isGoingUpwards: true,
                 obstaclePos: 800
             }
         },
@@ -36,28 +36,32 @@
             handleUserAction(event) {
                 if (event.keyCode === 32) {
                     this.isJumping = true;
-                    // eslint-disable-next-line no-console
-                    console.log("SPAAACE")
 
                 }
             },
             moveUser() {
                 if (this.isJumping) {
-                    if (this.playerSpeed - 20 < 0) {
-                        this.playerSpeed = 0;
+                    if (this.playerSpeed - 20 / 25 < 0) {
+                        this.playerSpeed = 1;
                         this.isGoingUpwards = false
                     } else {
-                        this.playerSpeed = this.playerSpeed - 20 / 25
+                        if (this.isGoingUpwards){
+                            this.playerSpeed = this.playerSpeed - 20 / 25
+                        }else {
+                            this.playerSpeed = this.playerSpeed + 10 / 25
+                        }
                     }
                     if (this.isGoingUpwards) {
                         this.playerPos = this.playerPos - this.playerSpeed
                     } else {
                         this.playerPos = this.playerPos + this.playerSpeed
                     }
-                    this.playerPos > 300 ? this.isGoingUpwards= true : this.isGoingUpwards= false
-                } else {
-                    this.isGoingUpwards = true;
-                    this.playerSpeed = 63
+                    if (this.playerPos > 401){
+                        this.playerPos = 400;
+                        this.playerSpeed = 15;
+                        this.isJumping = false;
+                        this.isGoingUpwards = true
+                    }
                 }
             },
             start() {
