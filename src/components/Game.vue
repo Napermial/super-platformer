@@ -1,7 +1,7 @@
 <template>
     <div>
         <svg width="1000" height="500">
-            <rect class="mario" width="50" height="100" stroke="10" x="50" v-bind:y="playerPos"></rect>
+            <rect class="player" v-bind:fill="isMario" width="50" height="100" stroke="10" x="50" v-bind:y="playerPos"></rect>
             <line class="line" x1="0" y1="500" x2="1000" y2="500"></line>
             <circle class="sun" r="50" cx="200" cy="200"></circle>
             <rect class="enemy" height="50" width="50" v-bind:x="enemyPosX" v-bind:y="enemyPosY"></rect>
@@ -29,7 +29,8 @@
                 enemyPosX: 800,
                 enemyPosY: 450,
                 isGameOver: false,
-                score: 1
+                score: 1,
+                isMario: 'red'
             }
         },
         created() {
@@ -88,7 +89,7 @@
                 this.enemyPosX -= this.speed;
             },
             checkCollision() {
-                let rect1 = document.querySelector('.mario').getBoundingClientRect();
+                let rect1 = document.querySelector('.player').getBoundingClientRect();
                 let rect2 = document.querySelector('.enemy').getBoundingClientRect();
                 if (rect1.x < rect2.x + rect2.width &&
                     rect1.x + rect1.width > rect2.x &&
@@ -112,22 +113,21 @@
             },
 
             start() {
+                if (localStorage.getItem('isMario') === 'MARIO'){
+                    this.isMario = "red"
+                }else {
+                    this.isMario = "green"
+                }
                 //25 FPS
                 setInterval(this.nextFrame, 40);
+                // eslint-disable-next-line no-console
+                console.log(localStorage.getItem('isMario'))
             }
         }
     }
 </script>
 
 <style scoped>
-    .mario {
-        fill: red;
-    }
-
-    .luigi {
-        fill: green;
-    }
-
     .line {
         stroke: #2c3e50;
         stroke-width: 2;

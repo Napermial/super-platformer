@@ -38,6 +38,7 @@
         },
         methods: {
             sendCredentials(){
+                localStorage.setItem('isMario',this.isMario);
                 axios.post('http://localhost:8762/player/start-game',{
                     'name':this.playerName, 'character': this.isMario
                 });
