@@ -2,10 +2,9 @@
     <div>
         <svg width="1000" height="500">
             <rect class="mario" width="50" height="100" stroke="10" x="50" v-bind:y="playerPos"></rect>
-            <rect class="luigi" width="50" height="100" stroke="10" v-bind:x="obstaclePos" y="400"></rect>
             <line class="line" x1="0" y1="500" x2="1000" y2="500"></line>
             <circle class="sun" r="50" cx="100" cy="100"></circle>
-            <rect class="enemy" height="50" width="50" x="600" y="450"></rect>
+            <rect class="enemy" height="50" width="50" v-bind:x="obstaclePos" y="450"></rect>
         </svg>
     </div>
 </template>
@@ -15,7 +14,7 @@
         name: "Game",
         data() {
             return {
-                speed: 1,
+                speed: 4,
                 playerPos: 400,
                 playerSpeed: 15,
                 gravity:10,
@@ -30,7 +29,7 @@
         }
         , methods: {
             nextFrame() {
-                this.obstaclePos -= this.speed;
+                this.moveEnemy();
                 this.moveUser()
             },
             handleUserAction(event) {
@@ -64,7 +63,17 @@
                     }
                 }
             },
+            moveEnemy(){
+                if (this.obstaclePos < 0){
+                    this.obstaclePos = 1100
+                }
+                this.obstaclePos -= this.speed;
+            },
+            spawnEnemy(){
+
+            },
             start() {
+                //25 FPS
                 setInterval(this.nextFrame, 40);
             }
         }
