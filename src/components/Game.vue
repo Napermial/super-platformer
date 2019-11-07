@@ -6,6 +6,8 @@
             <circle class="sun" r="50" cx="200" cy="200"></circle>
             <rect class="enemy" height="50" width="50" v-bind:x="enemyPosX" v-bind:y="enemyPosY"></rect>
             <rect class="health-bar" height="30" width="200" x="30" y="30"></rect>
+            <rect class="cloud 1" height="60" width="100" x="600" y="100"></rect>
+            <rect class="cloud 2" height="60" width="100" x="550" y="80"></rect>
             <text class="score-num" x="850" y="30" >{{this.score}}</text>
         </svg>
     </div>
@@ -147,5 +149,9 @@
         fill: black;
         font-family: Supersans;
         font-size: 40px;
+    }
+
+    .cloud{
+        fill: grey;
     }
 </style>
