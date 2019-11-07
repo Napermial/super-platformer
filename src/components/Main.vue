@@ -2,6 +2,9 @@
     <div class="Main">
         <h1>SUPRE-A PLADFROMA GME</h1>
         <h2>TRY-A NUW FREE</h2>
+        <audio id="music" loop autoplay>
+            <source src="../audio/title_music.mp3" type="audio/mpeg">
+        </audio>
         <div>
             <label>
                 <input placeholder="PLAYER NAME" v-model="playerName">
@@ -45,6 +48,8 @@
                 });
                 this.$router.push('/game')
             }
+        },mounted() {
+            document.getElementById('music').play()
         }
     }
 </script>

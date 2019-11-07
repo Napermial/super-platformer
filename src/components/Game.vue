@@ -11,6 +11,9 @@
             <rect class="cloud 2" height="60" width="100" x="550" y="80"></rect>
             <text class="score-num" x="850" y="30">{{this.score}}</text>
         </svg>
+        <audio id="music" >
+            <source src="../audio/boing.mp3" type="audio/mpeg">
+        </audio>
     </div>
 </template>
 
@@ -54,6 +57,7 @@
             },
             moveUser() {
                 if (this.isJumping) {
+                    document.getElementById("music").play();
                     if (this.playerSpeed - 20 / 25 < 0) {
                         this.playerSpeed = 1;
                         this.isGoingUpwards = false
