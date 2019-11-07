@@ -3,8 +3,9 @@
         <svg width="1000" height="500">
             <rect class="mario" width="50" height="100" stroke="10" x="50" v-bind:y="playerPos"></rect>
             <line class="line" x1="0" y1="500" x2="1000" y2="500"></line>
-            <circle class="sun" r="50" cx="100" cy="100"></circle>
+            <circle class="sun" r="50" cx="200" cy="200"></circle>
             <rect class="enemy" height="50" width="50" v-bind:x="enemyPosX" v-bind:y="enemyPosY"></rect>
+            <rect class="health-bar" height="30" width="200" x="30" y="30"></rect>
         </svg>
     </div>
 </template>
@@ -89,6 +90,8 @@
                     // eslint-disable-next-line no-console
                     console.log("u died");
                     this.isGameOver = true
+                    // eslint-disable-next-line no-undef
+                    document.querySelector(".health-bar").style.fill = "red" ;
                 }
 
         },
@@ -120,5 +123,9 @@
 
     .enemy {
         fill: blue;
+    }
+
+    .health-bar{
+        fill: darkgreen;
     }
 </style>
