@@ -101,8 +101,8 @@
                     rect1.x + rect1.width > rect2.x &&
                     rect1.y < rect2.y + rect2.height &&
                     rect1.y + rect1.height > rect2.y) {
+                    axios.post("http://localhost:8762/player/score", {'result':this.score, 'playerName':localStorage.getItem('player')});
                     clearInterval();
-
                     this.healthBar = 'red';
                     this.isGameOver = true;
                     if (confirm('YOU COMMITED DIE \nYour score is: ' + this.score + '\n' + 'Start-a game again?')) {
